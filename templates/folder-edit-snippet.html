@@ -1,0 +1,18 @@
+<h1>Folder Preferences</h1>
+<form name="main_form" id="standard-form" class="folder-form " action="{% url folder_edit selected_folder.id %}" method="post" onsubmit="return LoadHTMLAfterFormPost(this, $('#folder_items'));">
+    {% with folder_edit_form as form %}
+        {% include "form_basic.html" %}
+    {% endwith %}
+	<hr/>
+    <div>
+		<input type="submit" value="Update" />
+		<input type="button" value="Delete Folder" onclick="$('#DeleteFolderForm').submit();" />
+    </div>
+</form>
+{% if selected_folder.default_folder %}
+<form id="DeleteFolderForm" action="{% url home %}" onsubmit="" method="post">		
+{% else %}
+<form id="DeleteFolderForm" action="{% url folder_render selected_folder.id  selected_folder.name|slugify %}" method="post">
+{% endif %}
+	<input type="hidden" name="action" value="folder_delete" />
+</form>

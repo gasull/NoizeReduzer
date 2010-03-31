@@ -1,0 +1,43 @@
+{% if sub_feed %}
+	<h1><a href="{% url folder_render selected_folder.id selected_folder.name|slugify %}">{{ selected_folder.name }}</a> &gt; {{ sub_feed.name }}</h1>
+{% else %}
+	<h1>{{ selected_folder.name }}</h1>
+{% endif %}
+{% if pager %}
+<ul class="pagination">
+	<li>Showing Items {{ pager.start }} - {{ pager.end }} of {{ pager.count }}</li>	
+</ul>
+{% endif %}
+<ul class="feed_items">
+    {% if feed_items %}
+		{% for item in feed_items %}
+		<li {% cycle "" "class='alt'" %}>
+	        {# <div><img src="{{ imagespath }}icons/thumb_up.png" /></div> #}
+	        <h2 class="item_title"><a href="{{item.raw_item.rank.link}}">{{item.raw_item.title}}</a></h2>
+			<div class="item_body">{{item.raw_item.body|safe|truncatewords_html:40}}</div>
+	        <div class="feed_name">{{item.feed.name}}</div>
+			<div class="item_date">Published {{item.raw_item.local_published_date|timesince}} ago</div>
+		</li>
+		{% endfor %}
+	{% else %}
+		<li>
+			<div class="item_title">There are currently no folder items available.</div>
+		</li>
+	{% endif %}
+</ul>
+{% if pager %}
+<ul class="pagination">
+	{% ifnotequal pager.next_page pager.current_page %}
+		<li> <a href="{% url folder_render_pagination selected_folder.id pager.next_page selected_folder.name|slugify %}">Next</a></li>
+	{% endifnotequal %}
+	{% ifnotequal pager.previous_page pager.current_page %}
+		{% ifnotequal pager.previous_page 1 %}
+		<li><a href="{% url folder_render_pagination selected_folder.id pager.previous_page selected_folder.name|slugify %}">Previous</a> </li>
+		{% else %}
+		<li><a href="{% url folder_render selected_folder.id selected_folder.name|slugify %}">Previous</a></li>
+		{% endifnotequal %}
+	{% endifnotequal %}
+	<li>Showing Items {{ pager.start }} - {{ pager.end }} of {{ pager.count }}</li>	
+</ul>
+{% endif %}
+<div style="clear: both;"></div>

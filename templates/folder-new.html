@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block head %}
+	<script src="{{ jspath }}validation.js" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+	<form action="" method="post" onsubmit="return VerifyForm(this);">
+	    <div>
+	    	<label for="folder_name">
+	            Folder Name: 
+	        </label>
+	        <input name="folder_name" type="text" value="{{ folder.name }}" title="Folder Name" class="required" />
+	    </div>
+	    <div>
+	        <input type="submit" value="Create Folder" />
+	    </div>
+		<input type="hidden" name="submit_action" value="folder_create" />
+	</form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="registrationForm">
+<h1>Account Registration</h1>
+<form action="/register.html" id="standard-form" method="post" onsubmit="return VerifyForm(this);">
+	{% include 'form_basic.html' %}
+	<hr/>
+	<input type="submit" value="Register" />
+</form>
+</div>
+{% endblock %}

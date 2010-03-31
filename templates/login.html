@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Account login{% endblock %}
+{% block content %}
+<div id="signinForm">
+	<h1>Account Login</h1>
+	<form name="main_form" id="standard-form" action="{% url login %}?{{ request.META.QUERY_STRING }}" method="post" onsubmit="return VerifyForm(this);">
+	    {% include 'form_basic.html' %}
+		<hr/>
+	    <div>
+	        <input type="submit" value="Sign In" />
+	    </div>
+	</form>
+</div>
+{% endblock %}

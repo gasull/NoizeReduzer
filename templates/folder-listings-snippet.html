@@ -1,0 +1,59 @@
+{% load folder_filters %}
+<div id="folders-listing">
+	<h1>Folders:</h1>
+	<ul>
+	{% for folder in folders %}
+	  <li class="folder"><a href="{% url folder_render folder.id folder.name|slugify %}">{{ folder.name }}</a>  	
+	    <ul id="folder{{ folder.id }}" {% ifnotequal folder.id selected_folder.id %}class="hidden"{% endifnotequal %}>
+	    {% for feed in folder.get_feeds %}
+		<li class="feed"><a href="{% url feed_render folder.id feed.id feed.name|slugify %}">{{ feed.name|truncate_characters:25 }}</a>
+              (<a href="" style="color: #FEBF10" onclick="ToggleFeedEdit({{ feed.id }});return false;">edit</a>)</li>
+		<li class="feed-edit-fields {{ feed.id }}">
+			<input type="text" id="feedName{{ feed.rawfeed.id }}" value="{{ feed.name }}"><br>
+			<input type="button" value="Save" onclick="FeedEdit({{ feed.rawfeed.id }});return false;" />
+			<input type="button" value="Delete" onclick="FeedDelete({{ feed.rawfeed.id }});return false;" />
+			<input type="button" value="Cancel" onclick="ToggleFeedEdit({{ feed.id }});return false;" />
+		</li>
+		{% endfor %}
+		  <li><a href="#TB_inline?height=155&width=300&inlineId=AddFeedForm" class="thickbox">Add Subscription</a></li>
+	    </ul>		
+	  </li>
+	 {% endfor %}
+	</ul>
+	<br />
+	<div>
+		{% if selected_folder.default_folder %}
+		<form action="{% url home %}" onsubmit="" method="post">		
+		{% else %}
+		<form action="{% url folder_render selected_folder.id  selected_folder.name|slugify %}" onsubmit="" method="post">
+		{% endif %}
+		    {% with folder_add_form as form %}
+		        {% include "form_basic.html" %}
+		    {% endwith %} 
+			<input type="hidden" name="action" value="folder_add" />
+			<input type="submit" value="Add Folder" />
+		</form>
+	</div>	
+	<div id="AddFeedForm" class="hidden">
+		{% if selected_folder.default_folder %}
+		<form action="{% url home %}" onsubmit="" method="post">		
+		{% else %}
+		<form action="{% url folder_render selected_folder.id  selected_folder.name|slugify %}" onsubmit="" method="post">
+		{% endif %}
+		    {% with feed_add_form as form %}
+		        {% include "form_basic.html" %}
+		    {% endwith %} 
+			<input type="hidden" name="action" value="feed_add" />
+			<input type="submit" value="Add Subscription" />
+		</form>
+	</div>
+	{% if selected_folder.default_folder %}
+	<form id="FeedEditForm" action="{% url home %}" onsubmit="" method="post">		
+	{% else %}
+	<form id="FeedEditForm" action="{% url folder_render selected_folder.id  selected_folder.name|slugify %}" method="post">
+	{% endif %}
+		<input type="hidden" id="FeedEditFormFeedID" name="feed_id" value="" />
+		<input type="hidden" id="FeedEditFormFeedName" name="feed_name" value="" />
+		<input type="hidden" id="FeedEditFormAction" name="action" value="feed_delete" />
+	</form>
+</div>

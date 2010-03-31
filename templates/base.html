@@ -1,0 +1,63 @@
+{# From http://www.djangobook.com/en/1.0/chapter04/ #}
+{# Create a base.html template that holds the main look and feel of your site. This is the stuff that rarely, if ever, changes. #}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %} - NoizeReduzer</title>
+    {# Combo of YUI Base, Grids and Reset #}
+    <link rel="stylesheet" type="text/css" href="{{ yui_css_path }}" /> 
+	<link href="{{ csspath }}layout.css" rel="stylesheet" type="text/css" />
+	<script src="{{ jquery_path }}" type="text/javascript"></script>
+	<script src="{{ jspath }}global.js" type="text/javascript"></script>
+	<script src="{{ jspath }}rounded.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		Rounded("rounded",10,10);
+		Rounded("roundedTop",10,10,0,0);
+		Rounded("roundedBottom",0,0,10,10)
+		Rounded("roundedContent",10,10);
+		Rounded("alt",10,10);
+	});
+	</script> 
+	{% block head %}{% endblock %}
+</head>
+<body>
+	<div id="doc3" class="yui-t3">		
+		<div id="hd" class="roundedTop">
+			<div class="innerDiv">
+			<div id="logo"><a href="{% url home %}">NoizeReduzer</a></div>
+			{% if not request.is_logged_in %}
+			<div id="loginTxt"><a href="{% url login %}">Sign in</a> or <a href="{% url user_registration %}">Register</a> to manage your settings across computers.</div>
+			{% else %}
+			<div id="loginTxt">
+				<div>Hello {{ request.user_account.username|default:"Anonymous" }}.</div>
+				<div><a href= "{% url account_settings %}">Account settings</a> | <a href= "{% url logout %}">Logout</a></div>
+			</div>		
+			{% endif %}
+			<a href="{% url home %}" class="headerTab{% if not account_page %} selected{% endif %}">My Subscriptions</a>
+			<a href="{% url account_settings %}" class="headerTab{% if account_page %} selected{% endif %}">My Account Settings</a>			
+			</div>
+			<div class="clr"></div>
+			
+				
+			
+		</div>
+		
+		<div id="bd" class="roundedBottom">
+			<div class="innerDiv">
+		    {% block content %}
+			{% endblock %}
+			<div class="clr"></div>
+			</div>
+		</div>
+		<div id="ft" class="rounded">
+			<div class="innerDiv">
+		    {% block footer %}
+				<div><a href="{% url home %}">Home</a> | <a href="{% url user_registration %}">Register</a> | <a href="">About Us</a></div>
+				<div>&copy; Noize Reduzer 2009</div>
+			{% endblock %}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

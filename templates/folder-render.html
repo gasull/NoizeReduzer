@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}My folders{% endblock %}
+{% block head %}
+	<link href="{{ csspath }}thickbox.css" rel="stylesheet" type="text/css" />
+	<script src="{{ jspath }}thickbox.js" type="text/javascript"></script>
+	<link href="{{ csspath }}thickbox.css" rel="stylesheet" type="text/css" />
+	<script src="{{ jspath }}thickbox.js" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+	<div class="yui-b roundedContent" id="left_panel">
+		<div class="innderDiv">
+		{% include 'folder-listings-snippet.html' %}
+		{% include 'folder-edit-snippet.html' %}
+		</div>
+	</div>
+	<div id="yui-main">
+		<div class="yui-b roundedContent" id="folder_container">
+			<div id="folder_items">{% include 'feed-items-snippet.html' %}</div>
+		</div>
+	</div>
+{% endblock %}

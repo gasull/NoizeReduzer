@@ -1,0 +1,10 @@
+{% for field in form %}
+	{% if field.is_hidden %}
+	   {{ field }}
+	{% else %}
+    <div {% if field.field.required %}class="required"{% endif %}>
+        {{ field.errors }}
+        {{ field.label_tag }}: {{ field }}
+    </div>
+	{% endif %}
+{% endfor %}

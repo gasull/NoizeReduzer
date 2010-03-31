@@ -1,0 +1,236 @@
+/***** common CSS settings *****/
+html, body {
+    background-color: #FFF;
+    font-size: 15px
+}
+
+form {
+    margin: 0px;
+}
+
+a {
+    color: #FEBF10;
+    font-weight: bold;
+}
+
+a img {
+    border: none;
+}
+
+.b, a.b {
+    font-weight: bold;
+}
+
+.white, a.white {
+    color: #FFFFFF;
+}
+
+.clr {
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.fc {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.c {
+    text-align: center;
+}
+
+ul li {
+    list-style: none;
+}
+
+.hidden {
+    display: none;
+}
+
+hr {
+    border: 0;
+    width: 80%;
+    color: #666;
+    background-color: #666;
+    height: 1px;
+    margin: 7px 0 7px 0;
+}
+/***** site specific layout and colors *******/
+#logo {
+    width: 50%;
+    float: left;
+}
+
+#logo a {
+    text-decoration: none;
+    font-size: 4em;
+}
+
+#doc3 {
+    margin: 15px 10px 15px 10px;
+    background-color: #FFF
+}
+
+#hd {
+    background-color: #C87533;
+}
+
+#hd .innerDiv {
+    padding-top: 0px;
+    padding-bottom: 6px
+}
+
+#loginTxt {
+    float: right;
+    width: 50%;
+    line-height: 27px;
+    text-align: right;
+}
+
+.innerDiv {
+    padding: 15px
+}
+
+a.headerTab {
+	line-height: 2.2em;
+	font-size: 1.5em;
+	width:18em;
+	border: 1px solid #000;
+	border-width: 1px 1px 0 1px;
+	text-align: center;
+	float: right;
+	display: block;
+	color: #000;
+	margin-top: .2em;
+	text-decoration: none;
+	background-color: grey;
+}
+
+a.headerTab.selected {
+	background-color: #9EB847;
+}
+
+#bd {
+    margin: 0 0 10px 0;
+    background-color: #9EB847;
+	clear: both;
+}
+
+#bd a {
+    color: #C87533;
+    font-weight: bold;
+}
+
+#bd .innerDiv {
+    padding: 15px;
+    min-height: 400px;
+}
+
+#bd .roundedContent {
+    background-color: #FFF;
+}
+
+#signinForm hr, #registrationForm hr {
+    width: 30em
+}
+
+ul.feed_items li.alt {
+    background-color: #FFF
+}
+
+#ft {
+    text-align: center;
+    background-color: #C87533
+}
+
+#ft .innerDiv {
+    padding-left: 15px
+}
+
+#standard-form {
+    padding: 10px 0 10px 0;
+}
+
+#standard-form div, #standard-form li {
+    line-height: 27px
+}
+
+#standard-form ul {
+    padding: 0;
+    margin: 0
+}
+
+#standard-form .checkbox {
+    margin: 0 7px 0 0;
+}
+
+#left_panel {
+    background-color: #FFF
+}
+
+#left_panel a {
+    text-decoration: none
+}
+
+#left_panel .innderDiv {
+    padding: 0 6px 0 6px
+}
+
+#folders-listing ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#folders-listing ul li {
+    background-position: 0 1px;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+
+#folders-listing ul li.feed {
+    background-image: url(/images/icons/feed.png);
+}
+
+#folders-listing ul li.folder {
+    background-image: url(/images/icons/folder_feed.png);
+}
+
+#folders-listing ul li.feed a {
+    color: #000000;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#folders-listing ul li.feed a:hover {
+    text-decoration: underline;
+}
+
+#folders-listing li.feed-edit-fields {
+	display: none;
+}
+
+#folder_container h1 {
+    margin-left: 25px
+}
+
+ul.pagination {
+	width: 30em;
+	height: 3em;
+	float: right;
+}
+
+ul.pagination li {
+	list-style: none;
+	float: right;
+	padding: 0 .2em 0 .2em;
+}
+
+

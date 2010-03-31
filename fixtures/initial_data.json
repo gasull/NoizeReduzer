@@ -1,0 +1,26 @@
+[
+    {
+        "model": "users.UserAccount",
+        "pk": 1,
+        "fields": {
+            "username": "default",
+            "password": "wREpru52",
+            "email": "",
+            "type": 1,
+            "status": 1,
+            "on_announce_list": "False" 
+        } 
+    },
+    {
+        "model": "folders.Folder",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "default_folder": "True",
+            "name": "NR Favorites",
+            "shared": "False",
+            "items_per_page": 25,
+            "days_old_limit": 14 
+        }
+    }
+]
