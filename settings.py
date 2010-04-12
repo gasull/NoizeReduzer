@@ -51,16 +51,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.transaction.TransactionMiddleware',
 )
 
-INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django_cron',
-    'folders',
-    'users',
-)
-
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (

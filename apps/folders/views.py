@@ -1,8 +1,10 @@
-from django.conf.settings import default_user_id
+from settings import default_user_id
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 
 from folders import utils
+from folders.models import Folder
+from folders.forms import FeedAddForm, FolderAddForm, FolderEditForm
 from users.models import UserAccount
 from users.utils import login_user
 from helper.pager import Pager

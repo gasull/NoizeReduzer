@@ -19,8 +19,8 @@ DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'post
 DATABASE_NAME = 'noizereduzer'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'nrdev'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'password'         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+DATABASE_HOST = '127.0.0.1'             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = '5432'             # Set to empty string for default. Not used with sqlite3.
  
 # Absolute path to the directory that holds media.
 # Example: "/home/johndoe/workspace/noizereduzer/"
@@ -36,7 +36,7 @@ INSTALLED_APPS = (
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django_cron',
-        'extensions',
+        #'extensions',
         # NoizeReduzer:
         'folders',
         'users',
