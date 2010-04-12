@@ -42,6 +42,6 @@ INSTALLED_APPS = (
         'users',
 )
  
-#  Paths for common JS & CSS files, which will be hosted by a 3rd party
-jquery_path = '/js/jquery.js'
-yui_css_path = '/css/yui.css'
+#  Paths for common JS & CSS files, which can be hosted by a 3rd party
+jquery_path = 'http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js'
+yui_css_path = 'http://yui.yahooapis.com/combo?2.6.0/build/reset-fonts-grids/reset-fonts-grids.css&2.6.0/build/base/base-min.css'
