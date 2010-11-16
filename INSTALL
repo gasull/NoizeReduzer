@@ -1,1 +1,1 @@
-It requires feedparser.py http://www.feedparser.org/
+It requires feedparser.py http://www.feedparser.org/ and django-cron

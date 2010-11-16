@@ -1,5 +1,5 @@
-from folders.models import Folder 
-from django_cron.base import cron, Job
+from folders.models import Folder
+from django_cron.base import cronScheduler, Job
 from folders.utils import add_feed
 
 #DOC: http://code.google.com/p/django-cron/wiki/Install
@@ -12,7 +12,7 @@ class UpdateDefaultFolder(Job):
     def job(self):
         update_default()
 
-cron.register(UpdateDefaultFolder)
+cronScheduler.register(UpdateDefaultFolder)
 
 def update_default():
     """

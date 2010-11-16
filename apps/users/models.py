@@ -1,6 +1,6 @@
 from django.db import models
 from django import forms
-from settings import default_user_id
+from settings import DEFAULT_USER_ID
 
 USER_TYPES = (
     (1, 'DEFAULT_USER'),
@@ -23,10 +23,10 @@ class UserAccount(models.Model):
     type = models.IntegerField(max_length=1, choices=USER_TYPES) # represents user account type
     status = models.IntegerField(max_length=1, choices=USER_STATUS) # represents user account status
     on_announce_list = models.BooleanField(default=True)
-    
+
     def check_if_default_user(self):
         return self.id == default_user_id
-    
+
     is_default_user = property(check_if_default_user)
 
     def __unicode__(self):
@@ -61,23 +61,23 @@ class UserGuessers(models.Model):
     user = models.OneToOneField(UserAccount, unique=True)
     #FIXME: Each user need to have his own file for each guesser.
     guess_read_from_link_text = models.FileField(
-            'Bayesian classifier that guesses if the user will read it', 
+            'Bayesian classifier that guesses if the user will read it',
             upload_to='data/bayes/guess_read_from_link_text/')
     guess_read_from_link_url = models.FileField(
-            'Bayesian classifier that guesses if the user will read it', 
+            'Bayesian classifier that guesses if the user will read it',
             upload_to='data/bayes/guess_read_from_link_url/')
     guess_click_from_link_text = models.FileField(
-            'Bayesian classifier that guesses if the user will click it', 
+            'Bayesian classifier that guesses if the user will click it',
             upload_to='data/bayes/guess_click_from_link_text/')
     guess_click_from_link_url = models.FileField(
-            'Bayesian classifier that guesses if the user will click it', 
+            'Bayesian classifier that guesses if the user will click it',
             upload_to='data/bayes/guess_click_from_link_url/')
     guess_click_from_content = models.FileField(
             'Bayesian classifiear that guesses if the user will click the link',
             upload_to='data/bayes/guess_click_from_content/')
-    #TODO: Guesser based on what people with similar interests are 
+    #TODO: Guesser based on what people with similar interests are
     # reading/clicking
-    
+
 
 class Billing(models.Model):
     user = models.ForeignKey(UserAccount, unique=True)
@@ -93,22 +93,22 @@ class Billing(models.Model):
         return 'address: %s city: %s state: %s zipcode: %s country: %s' % \
                 (self.address, self.city, self.state, self.zipcode, \
                 self.country)
-    
+
 ##
-#    User registration form validator 
+#    User registration form validator
 class RegistrationForm(forms.Form):
     email = forms.EmailField()
     username = forms.CharField(max_length=30)
     password = forms.CharField(widget=forms.PasswordInput, max_length=30)
-    password_verfication = forms.CharField(widget=forms.PasswordInput, max_length=30)   
+    password_verfication = forms.CharField(widget=forms.PasswordInput, max_length=30)
     on_announce_list = forms.BooleanField(required=False)
-    
+
     def is_valid(self):
         return forms.Form.is_valid(self) and \
                 self.cleaned_data['password'] == self.cleaned_data['password_verfication']
-  
+
 ##
-#    User signin form validator   
+#    User signin form validator
 class SignInForm(forms.Form):
     username = forms.CharField(max_length=30, label="Username/Email")
     password = forms.CharField(widget=forms.PasswordInput, max_length=30)

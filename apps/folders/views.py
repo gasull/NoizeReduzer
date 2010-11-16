@@ -1,7 +1,9 @@
-from django.conf.settings import default_user_id
+from django.conf import settings
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 
+from folders import forms as folder_forms
+from folders import models as folder_models
 from folders import utils
 from users.models import UserAccount
 from users.utils import login_user
@@ -11,18 +13,18 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 def _folder_edit_form(folder, sub_feed_id=0):
-    return FolderEditForm({'name': folder.name,
+    return folder_forms.FolderEditForm({'name': folder.name,
                            'days_old_limit': folder.days_old_limit,
                            'items_per_page': folder.items_per_page,
                            'subscription_feed_id': sub_feed_id
                           })
-    
+
 def _create_anonymous_user(request):
     user = UserAccount(type=1, status=1)
     user.save()
     login_user(request,user)
-    return utils.copy_folder(get_object_or_404(Folder, user=default_user_id, default_folder=True), user)
-    
+    return utils.copy_folder(get_object_or_404(folder_models.Folder, user=settings.DEFAULT_USER_ID, default_folder=True), user)
+
 
 ##
 # Handles folder edits, along with providing a refreshed
@@ -33,14 +35,14 @@ def folder_edit(request, folder_id,page=1):
     if not request.is_logged_in:
         folder = _create_anonymous_user(request)
         folder_id = folder.id
-    else:        
-        folder = get_object_or_404(Folder, pk=folder_id)    
-    
+    else:
+        folder = get_object_or_404(folder_models.Folder, pk=folder_id)
+
     subscription_feed_id = None
     if request.method == 'POST':
-        form = FolderEditForm(request.POST)
+        form = folder_forms.FolderEditForm(request.POST)
         if form.is_valid():
-#            if request.user_account.id == default_user_id
+#            if request.user_account.id == settings.DEFAULT_USER_ID
             rawfeed_id = form.cleaned_data['raw_feed_id']
             folder.name = form.cleaned_data['name']
             folder.items_per_page = int(form.cleaned_data['items_per_page'])
@@ -72,31 +74,31 @@ def folder_render(request, folder_id=None, page=1):
         folder_id = selected_folder.id
         user_id = request.user_account.id
     elif not request.is_logged_in:
-        user_id = default_user_id
+        user_id = settings.DEFAULT_USER_ID
     else:
         user_id = request.user_account.id
 
     if folder_id and not selected_folder:
-        selected_folder = get_object_or_404(Folder, pk=int(folder_id))
+        selected_folder = get_object_or_404(folder_models.Folder, pk=int(folder_id))
     else:
-        selected_folder = get_object_or_404(Folder, user=user_id, default_folder=True)
-        
+        selected_folder = get_object_or_404(folder_models.Folder, user=user_id, default_folder=True)
+
     pager = Pager(page_number=int(page), limit=selected_folder.items_per_page, total_count=selected_folder.item_count)
 
     # On  post back, check for feed add and folder add actions
     if request.method == 'POST':
         action = request.POST['action']
         if action == 'feed_add':
-            feed_add_form = FeedAddForm(request.POST)
+            feed_add_form = folder_forms.FeedAddForm(request.POST)
             if feed_add_form.is_valid():
                 try:
                     utils.add_feed(selected_folder, feed_add_form.cleaned_data['url'])
                 except utils.CannotParseFeed:
                     pass #FIXME:Ticket #42. Right now fails silently
         elif action == 'folder_add':
-            folder_add_form = FolderAddForm(request.POST)
+            folder_add_form = folder_forms.FolderAddForm(request.POST)
             if folder_add_form.is_valid():
-                selected_folder = Folder()
+                selected_folder = folder_models.Folder()
                 selected_folder.user = UserAccount.objects.get(id=user_id)
                 selected_folder.name = folder_add_form.cleaned_data['name']
                 selected_folder.default_folder = False
@@ -113,16 +115,16 @@ def folder_render(request, folder_id=None, page=1):
             feed.save()
         elif action == 'folder_delete' and not selected_folder.default_folder:
             selected_folder.delete()
-            selected_folder = get_object_or_404(Folder, user=user_id, default_folder=True)
+            selected_folder = get_object_or_404(folder_models.Folder, user=user_id, default_folder=True)
 
     if not feed_add_form:
-        feed_add_form = FeedAddForm()
+        feed_add_form = folder_forms.FeedAddForm()
     if not folder_add_form:
-        folder_add_form = FolderAddForm()
+        folder_add_form = folder_forms.FolderAddForm()
 
     return render_to_response('folder-render.html',
                               {'selected_folder': selected_folder,
-                               'folders': Folder.objects.filter(user=user_id),
+                               'folders': folder_models.Folder.objects.filter(user=user_id),
                                'folder_edit_form': _folder_edit_form(selected_folder),
                                 'folder_add_form': folder_add_form,
                                 'feed_add_form': feed_add_form,
@@ -140,16 +142,16 @@ def feed_render(request, folder_id, subscription_feed_id, page=1):
     selected_folder.start = pager.start
     return render_to_response('folder-render.html',
                               {'sub_feed': sub_feed,
-                               'folders': Folder.objects.filter(user=selected_folder.user),
+                               'folders': folder_models.Folder.objects.filter(user=selected_folder.user),
                                'selected_folder': selected_folder,
                                'folder_edit_form': _folder_edit_form(selected_folder, sub_feed.rawfeed.id),
-                               'folder_add_form': FolderAddForm(),
-                               'feed_add_form': FolderAddForm(),
+                               'folder_add_form': folder_forms.FolderAddForm(),
+                               'feed_add_form': folder_forms.FolderAddForm(),
                                'feed_items': utils.get_feed_items(sub_feed, pager.start, pager.limit),
                                'pager': pager
                               },
                               context_instance=RequestContext(request))
-    
+
 ##
 # Renders the account settings page.
 def account_settings_render(request):
@@ -161,28 +163,28 @@ def account_settings_render(request):
 
 def _get_folder(request, folder_id):
     if not request.is_logged_in:
-        user_id = default_user_id
+        user_id = settings.DEFAULT_USER_ID
     else:
         user_id = request.user_account.id
     try:
         if folder_id:
-            folder = Folder.objects.get(id=folder_id)
+            folder = folder_models.Folder.objects.get(id=folder_id)
         else:
-            folder = Folder.objects.get(user=user_id, default_folder=True)
-    except Folder.DoesNotExist:
+            folder = folder_models.Folder.objects.get(user=user_id, default_folder=True)
+    except folder_models.Folder.DoesNotExist:
         if not request.is_logged_in:
             from future import Future
             from folders.utils import update_default
             Future(update_default)
             raise Http404
         else:#todo: clean up this temp fix for new users
-            folder = Folder.objects.get(user=default_user_id, default_folder=True)
+            folder = folder_models.Folder.objects.get(user=settings.DEFAULT_USER_ID, default_folder=True)
     return folder
 
 
 def nr_sort(raw_items, user):
     """
-    Uses the Bayesian classifiers of the user to sort the list of raw 
+    Uses the Bayesian classifiers of the user to sort the list of raw
     items by guessed interestingness.
     """
     pass

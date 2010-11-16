@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     (r"^admin/(.*)", admin.site.root),
 )
 
+
 # b/c http://docs.djangoproject.com/en/dev/howto/static-files/#limiting-use-to-debug-true
 from django.conf import settings
 if settings.DEBUG:
@@ -51,9 +52,10 @@ if settings.DEBUG:
             name="images"),
         url(r"^tests/(?P<path>.*)$",
             "django.views.static.serve",
-            {'document_root': os.path.join(os.path.dirname(__file__), 'templates/tests').replace('\\','/')}, 
+            {'document_root': os.path.join(os.path.dirname(__file__), 'templates/tests').replace('\\','/')},
             name="tests"),
     )
+
 
 handler404 = 'django.views.defaults.page_not_found'
 handler500 = 'django.views.defaults.server_error'

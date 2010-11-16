@@ -84,7 +84,7 @@ FIXTURE_DIRS = (
 )
 
 #User ID associated with the default folder
-default_user_id = 1
+DEFAULT_USER_ID = 1
 
 # Local time zone for this installation. Choices can be found here:
 # http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
