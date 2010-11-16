@@ -1,0 +1,7 @@
+# Project files to be ignored by Git
+*.pyc
+*~
+settings_local.py
+.project
+.pydevproject
+shared
