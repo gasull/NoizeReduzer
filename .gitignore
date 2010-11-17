@@ -2,6 +2,7 @@
 *.pyc
 *~
 settings_local.py
+settings_webfaction.py
 .project
 .pydevproject
 shared

@@ -50,7 +50,7 @@ def folder_edit(request, folder_id,page=1):
             folder.save()
     pager = Pager(page_number=int(page), limit=folder.items_per_page, total_count=200)
     if subscription_feed_id > 0:
-        sub_feed = SubscriptionFeed.objects.get(rawfeed=rawfeed_id,folder=folder.id)
+        sub_feed = folder_models.SubscriptionFeed.objects.get(rawfeed=rawfeed_id,folder=folder.id)
         return render_to_response('feed-items-snippet.html',
                                     {'sub_feed': sub_feed,
                                     'selected_folder': folder,
@@ -106,11 +106,11 @@ def folder_render(request, folder_id=None, page=1):
                 HttpResponseRedirect(reverse('folder_render', args=[selected_folder.id, selected_folder.name]))
         elif action == 'feed_delete' and request.POST.has_key('feed_id'):
             rawfeed_id = int(request.POST['feed_id'])
-            feed = SubscriptionFeed.objects.get(rawfeed=rawfeed_id,folder=selected_folder.id)
+            feed = folder_models.SubscriptionFeed.objects.get(rawfeed=rawfeed_id,folder=selected_folder.id)
             feed.delete()
         elif action == 'feed_edit' and request.POST.has_key('feed_id') and request.POST.has_key('feed_name'):
             rawfeed_id = int(request.POST['feed_id'])
-            feed = SubscriptionFeed.objects.get(rawfeed=rawfeed_id,folder=selected_folder.id)
+            feed = folder_models.SubscriptionFeed.objects.get(rawfeed=rawfeed_id,folder=selected_folder.id)
             feed.name = request.POST['feed_name']
             feed.save()
         elif action == 'folder_delete' and not selected_folder.default_folder:
@@ -137,7 +137,7 @@ def folder_render(request, folder_id=None, page=1):
 # Renders only one feed on the screen.
 def feed_render(request, folder_id, subscription_feed_id, page=1):
     selected_folder = _get_folder(request, folder_id)
-    sub_feed = SubscriptionFeed.objects.get(id=subscription_feed_id)
+    sub_feed = folder_models.SubscriptionFeed.objects.get(id=subscription_feed_id)
     pager = Pager(page_number=int(page), limit=selected_folder.items_per_page, total_count=sub_feed.item_count)
     selected_folder.start = pager.start
     return render_to_response('folder-render.html',
