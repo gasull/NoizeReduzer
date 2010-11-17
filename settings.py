@@ -85,7 +85,7 @@ TIME_ZONE = 'America/Los_Angeles'
 # Should be at the end of the file to overwrite settings.py
 # (see http://code.djangoproject.com/wiki/SplitSettings)
 try:
+    from settings_local import *
+except:
     from settings_dev import *
-except ImportError:
-    from prod_settings_local import *
 

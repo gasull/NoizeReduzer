@@ -1,1 +1,15 @@
-It requires feedparser.py http://www.feedparser.org/ and django-cron
+Requirements:
+
+- Django 1.1 or higher (http://www.djangoproject.com/)
+- PostgresSQL version 8.3 or higher (http://www.postgresql.org/)
+- Psycopg (http://initd.org/psycopg/)
+- feedparser.py (http://www.feedparser.org/)
+- django-cron
+
+To get the web application running locally using the Django development web server:
+
+- Create a database to be used for this website with PostgresSQL.
+- Update settings_dev with your proper settings.
+- Sync the DB with the project's initial schema and data, by running the following command within the project root: python manage.py syncdb
+- Start the website with the following command from the project root: sudo python manage.py runserver --settings=settings 127.0.0.1:80
+- Visit http://127.0.0.1/, the homepage should load.
