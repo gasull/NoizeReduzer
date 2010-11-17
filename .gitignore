@@ -6,3 +6,4 @@ settings_local.py
 .pydevproject
 shared
 *.orig
+fabfile.py
