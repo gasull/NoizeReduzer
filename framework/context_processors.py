@@ -6,9 +6,9 @@ from settings import jquery_path, yui_css_path
 def media_paths(request):
 
     return {
-        "jspath": "/js/",
-        "csspath": "/css/",
-        "imagespath": "/images/",
+        "jspath": "/static/js/",
+        "csspath": "/static/css/",
+        "imagespath": "/static/images/",
         "jquery_path": jquery_path,
         "yui_css_path": yui_css_path
         }
