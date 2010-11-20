@@ -1,15 +1,17 @@
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
+from django.db import transaction
+from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.db.models import Q
-from django.core.exceptions import ObjectDoesNotExist
-from users.models import UserAccount, RegistrationForm, SignInForm
+
 from folders.models import Folder
-from users.utils import *
 from folders.utils import copy_folder
-from django.conf import settings
-from django.db import transaction
+from users.models import UserAccount, RegistrationForm, SignInForm
+from users.utils import *
+
 
 @transaction.autocommit
 def registration(request):
@@ -19,7 +21,8 @@ def registration(request):
 
         if form.is_valid():
             user = UserAccount(email = form.cleaned_data['email'],
-                           type = 1, status=1,
+                           type = 1,
+                           status=1,
                            username = form.cleaned_data['username'],
                            password = form.cleaned_data['password'],
                            on_announce_list = form.cleaned_data['on_announce_list'])
