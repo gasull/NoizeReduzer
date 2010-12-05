@@ -37,13 +37,10 @@ def registration(request):
 
     return render_to_response('register.html', { 'form': form }, context_instance=RequestContext(request))
 
-def settings(request):
-    return render_to_response('account-settings.html', context_instance=RequestContext(request))
 
-##
-#    This view is both responsible for logging in and logging out accounts.
-#    Will also do a subsequent redirect if a return URL is provided.
 def login(request, return_url=None, logout_requested=False):
+    """This view is both responsible for logging in and logging out accounts.
+    Will also do a subsequent redirect if a return URL is provided."""
 
     if logout_requested:
         logout_user(request)
